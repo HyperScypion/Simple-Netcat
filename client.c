@@ -11,11 +11,12 @@
 
 int client_tcp(int port, char *addr)
 {
+	int pid, bytes_recieved, sock;
 	struct sockaddr_in server_info;
 	struct hostent *host;
 	char send_data[1024], recv_data[1024];
 	
-	if (host = gethostbyname(add) == NULL) {
+	if (host = gethostbyname(addr) == NULL) {
 		fprintf(stderr, "Cannot get host name\n");
 		exit(1);
 	}
@@ -30,12 +31,39 @@ int client_tcp(int port, char *addr)
 	bzero(&(server_info.sin_zero), 8);
 
 	if (connect(sock, (struct sockaddr *)&server_info,
-				sizeof(struct sockaddr)) = 1) {
+				sizeof(struct sockaddr)) == -1) {
+		
 		perror("Connect");
 		exit(1);
 	}
-	/*	while (1) {
-		
+	if ((pid = fork()) == 0) {
+		while(1) {
+			fgets(send_data, 1024, stdin);
+			if (send(sock, send_data, sizeof(send_data) - 1, 0) == -1) {
+				perror("Send");
+			}	
+			exit(0);
+		}
 	}
-	*/
-}
+	else {
+		while(1) {
+			if ((bytes_recieved = recv(sock, recv_data, 1024, 0) == -1)) {
+				perror("Recv");
+				exit(1);	
+			}
+			recv_data[bytes_recieved] = '\0';
+			printf("%s", recv_data);
+		}
+		close(sock);
+	}
+		while(1) {
+			if ((bytes_recieved = recv(sock, recv_data, 1024 - 1, 0)) == -1) {
+				perror("Recv");
+				exit(1);
+			}
+			recv_data[bytes_recieved] = '\0';
+			printf("%s", recv_data);
+		}
+		close(sock);
+}	
+

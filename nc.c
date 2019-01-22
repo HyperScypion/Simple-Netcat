@@ -22,6 +22,10 @@ int main(int argc, char *argv[])
 				}
 				else if (argv[iter][1] == 'l') {
 					printf("Server Mode\n");
+					int number;
+					number = atoi(argv[2]);
+					printf("%d", number);
+					server_tcp(number);
 				}
 				else {
 					printf("Error: Usage nc [-option] [destination] [port]\n");
@@ -29,7 +33,8 @@ int main(int argc, char *argv[])
 				}
 			}
 			else {
-				
+				int number = atoi(argv[3]);
+				client_tcp(number, argv[2]);	
 			}
 		}
 	}

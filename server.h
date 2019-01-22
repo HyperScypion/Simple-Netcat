@@ -8,4 +8,4 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-int server_tcp(unsigned short int port);
+int server_tcp(int port);

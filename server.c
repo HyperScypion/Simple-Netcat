@@ -9,12 +9,14 @@
 #include <unistd.h>
 #include "server.h"
 
-int server_tcp(unsigned short int port)
+int server_tcp(int port)
 {
-	struct sockaddr_in server_addr, clinet_addr;
+	struct sockaddr_in server_addr, client_addr;
 	int sock, connected, bytes_recieved, true = 1;
+	int sin_size;
+	char recv_data[1024];
 
-	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1_) {
+	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
 		perror("Socket");
 		exit(1);
 	}
@@ -36,7 +38,15 @@ int server_tcp(unsigned short int port)
 		exit(1);
 	}
 	while (1) {
-
+		connected = accept(sock, (struct sockaddr *)&client_addr, (socklen_t *)&sin_size);
+		if (connected == -1) {
+			perror("Accept");
+			exit(1);
+		}
+		bytes_recieved = recv(connected, recv_data, 1024, 0);
+		recv_data[bytes_recieved] = '\0';
+		printf("%s", recv_data);
+		fflush(stdout);
 	}
 
 }
