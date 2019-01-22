@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+//#include "server.h"
+#include "client.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +29,7 @@ int main(int argc, char *argv[])
 				}
 			}
 			else {
-
+				
 			}
 		}
 	}
