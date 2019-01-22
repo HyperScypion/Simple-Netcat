@@ -7,8 +7,9 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "client.h"
 
-int client(int port, char *addr)
+int client_tcp(int port, char *addr)
 {
 	struct sockaddr_in server_info;
 	struct hostent *host;
@@ -26,6 +27,8 @@ int client(int port, char *addr)
 	server_info.sin_family = AF_INET;
 	server_info.sin_port = htons(port);
 	server_info.sin_addr = *((struct in_addr *)host->h_addr);
+	bzero(&(server_info.sin_zero), 8);
+
 	if (connect(sock, (struct sockaddr *)&server_info,
 				sizeof(struct sockaddr)) = 1) {
 		perror("Connect");
