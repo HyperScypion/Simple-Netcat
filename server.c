@@ -9,13 +9,13 @@
 #include <unistd.h>
 #include "server.h"
 
-int server_tcp(int port)
+int server_option(int port)
 {
 	struct sockaddr_in server_addr, client_addr;
 	int sock, connected, bytes_recieved, true = 1;
 	int sin_size;
 	char recv_data[1024];
-
+	
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
 		perror("Socket");
 		exit(1);
